@@ -1,8 +1,10 @@
-var mod = imports.misc.extensionUtils.getCurrentExtension().imports.src.mod
+const mod = imports.misc.extensionUtils.getCurrentExtension().imports.src.mod
+const workspaceThumbnail = imports.ui.workspaceThumbnail
+const SecondaryMonitorDisplay = imports.ui.workspacesView.SecondaryMonitorDisplay
 
-var workspaceThumbnail = imports.ui.workspaceThumbnail
-var SecondaryMonitorDisplay = imports.ui.workspacesView.SecondaryMonitorDisplay
-
+/**
+ * 
+ */
 var Mod = class extends mod.Base {
     enable() {
         // Thumbnails on main monitor
@@ -10,7 +12,7 @@ var Mod = class extends mod.Base {
         workspaceThumbnail.MAX_THUMBNAIL_SCALE = 0.1
         
         // Thumbnails on second monitor
-        if (!SecondaryMonitorDisplay) return; // gnome 42: this object does not exist when there is only one monitor or during login
+        if (!SecondaryMonitorDisplay) return;
         this.bkp_SecondaryMonitorDisplay_getThumbnailsHeight = SecondaryMonitorDisplay.prototype._getThumbnailsHeight
         SecondaryMonitorDisplay.prototype._getThumbnailsHeight = function(box) {
                 if (!this._thumbnails.visible)
@@ -29,7 +31,6 @@ var Mod = class extends mod.Base {
             workspaceThumbnail.MAX_THUMBNAIL_SCALE = this.bkp_MAX_THUMBNAIL_SCALE
         }
 
-        if (!SecondaryMonitorDisplay) return; // gnome 42: this object does not exist when there is only one monitor or during login
         if (this.bkp_SecondaryMonitorDisplay_getThumbnailsHeight) {
             SecondaryMonitorDisplay.prototype._getThumbnailsHeight = this.bkp_SecondaryMonitorDisplay_getThumbnailsHeight
         }
